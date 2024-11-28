@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User page</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        main {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            padding: 1rem;
+            height: calc(100vh - 56px);
+        }
+        .header-section {
+            margin: -1rem -1rem 1rem -1rem;
+        }
+        .tab-pane {
+            border: 1px solid #dee2e6;
+            padding: 1rem;
+            background-color: white;
+        }
+        .nav-link.active {
+            border-radius: 0;
+        }
+    </style>
+</head>
+
+<body>
+<!---->
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <span class="navbar-text text-light">
+            <strong id="currentUser"></strong> with roles: <strong id="roles"></strong>
+        </span>
+        <a href="/logout" class="btn btn-outline-light">Logout</a>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- левая панель -->
+        <div class="col-md-2 px-0">
+            <div class="d-flex flex-column flex-shrink-0 p-0 text-white">
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item" id="adminLink" style="display: none;">
+                        <a href="/admin" class="nav-link">Admin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/user" class="nav-link active">User</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 bg-light">
+            <h1 class="mt-3">User information-page</h1>
+            <div class="tab-pane fade show active" id="users-table">
+                <div class="header-section mb-1" style="background-color: #e9ecef; border-bottom: 2px solid #dee2e6; padding: 0.5rem 1rem;">
+                    <h3>About user</h3>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Firstname</th>
+                        <th>Lastname</th>
+                        <th>Email</th>
+                        <th>Roles</th>
+                    </tr>
+                    </thead>
+                    <tbody id="userTableBody">
+
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+    async function getUser() {
+        let response = await fetch('/user');
+        if (response.ok) {
+            let user = await response.json();
+
+            $('#currentUser').text(user.username);
+            $('#roles').text(user.roles.map(role => role.getName().replace('ROLE_', '')).join(', '));
+
+            // загрузка данных пользователя в таблицу
+            let userTable = `
+            <tr>
+                <td>${user.id}</td>
+                <td>${user.username}</td>
+                <td>${user.firstName}</td>
+                <td>${user.lastName}</td>
+                <td>${user.email}</td>
+                <td>${user.roles.map(role => role.getName().replace('ROLE_', '')).join(', ')}</td>
+            </tr>`;
+            $('#userTableBody').append(userTable);
+
+            // ссылка на страницу админа
+            let isAdmin = user.roles.some(role => role.getName() === 'ROLE_ADMIN');
+            if (isAdmin) {
+                $('#adminLink').show();
+            }
+
+        } else {
+            alert("Ошибка HTTP: " + response.status);
+        }
+    }
+    getUser();
+    console.log("AAAAAAAAA");
+</script>
+
+</body>
+</html>

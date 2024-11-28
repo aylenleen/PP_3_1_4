@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"  lang="en">
+
+<head>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>HOME PAGE</title>
+<style>
+    html, body {
+    height: 100%;
+    margin: 0;
+        text-align: center;
+    }
+    main {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 1rem;
+    height: calc(100vh - 56px);
+    }
+
+</style>
+
+</head>
+<body>
+<h2>Добро пожаловать!</h2>
+<p>Дальше пройдет только авторизованный пользователь...</p>
+
+<br><br>
+
+<a th:href="@{/login}"><input type="submit" class="btn btn-success" value="Вoйти" /></a>
+
+
+</body>
+</html>
