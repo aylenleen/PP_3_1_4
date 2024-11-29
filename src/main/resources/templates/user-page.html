@@ -5,10 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User page</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+
     <style>
         html, body {
             height: 100%;
@@ -79,9 +85,7 @@
                         <th>Roles</th>
                     </tr>
                     </thead>
-                    <tbody id="userTableBody">
-
-                    </tbody>
+                    <tbody id="userTableBody"></tbody>
                 </table>
             </div>
         </main>
@@ -89,38 +93,29 @@
 </div>
 
 <script>
-    async function getUser() {
-        let response = await fetch('/user');
-        if (response.ok) {
-            let user = await response.json();
 
-            $('#currentUser').text(user.username);
-            $('#roles').text(user.roles.map(role => role.getName().replace('ROLE_', '')).join(', '));
 
-            // загрузка данных пользователя в таблицу
-            let userTable = `
-            <tr>
-                <td>${user.id}</td>
-                <td>${user.username}</td>
-                <td>${user.firstName}</td>
-                <td>${user.lastName}</td>
-                <td>${user.email}</td>
-                <td>${user.roles.map(role => role.getName().replace('ROLE_', '')).join(', ')}</td>
-            </tr>`;
-            $('#userTableBody').append(userTable);
+    $(document).ready(function () {
+        return userTable();
+    });
 
-            // ссылка на страницу админа
-            let isAdmin = user.roles.some(role => role.getName() === 'ROLE_ADMIN');
-            if (isAdmin) {
-                $('#adminLink').show();
-            }
+    async function userTable() {
+        const response = await fetch('/user', {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'}
+        });
 
-        } else {
-            alert("Ошибка HTTP: " + response.status);
-        }
+        const {id, username, password, firstName, lastName, email, roles} = await response.json();
+
+        $('#userTableBody').append(`<tr>
+        <td>${id}</td>
+        <td>${username}</td>
+        <td>${firstName}</td>
+        <td>${lastName}</td>
+        <td>${email}</td>
+        <td>${roles.map(({name}) => name.replace('ROLE_', '')).join(', '))}</td>
+      </tr>`);
     }
-    getUser();
-    console.log("AAAAAAAAA");
 </script>
 
 </body>

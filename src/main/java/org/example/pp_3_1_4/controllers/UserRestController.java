@@ -4,6 +4,8 @@ import org.example.pp_3_1_4.model.User;
 import org.example.pp_3_1_4.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +23,8 @@ public class UserRestController {
     }
 
     @GetMapping("/user")
-    public User getCurrentUser(Principal principal) {
-        return (User) userService.loadUserByUsername(principal.getName());
+    public ResponseEntity<User> getCurrentUser(Principal principal) {
+        User user = (User) userService.loadUserByUsername(principal.getName());
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }
