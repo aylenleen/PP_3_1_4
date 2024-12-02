@@ -4,27 +4,30 @@ import org.example.pp_3_1_4.model.User;
 import org.example.pp_3_1_4.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 
-@RestController
+@Controller
+@RequestMapping("/admin")
 @EnableAutoConfiguration
-public class UserRestController {
+public class AdminController {
 
     private UserService userService;
 
     @Autowired
-    public UserRestController(UserService userService) {
+    public AdminController(UserService userService) {
         this.userService = userService;
     }
 
-    @GetMapping("/api/user")
-    public ResponseEntity<User> getCurrentUser(Principal principal) {
+    @GetMapping
+    public String showAdminPage(Principal principal, Model model) {
         User user = (User) userService.loadUserByUsername(principal.getName());
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        model.addAttribute("currentUser", user);
+        return "admin-page";
     }
+
 }

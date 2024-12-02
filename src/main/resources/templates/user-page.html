@@ -94,18 +94,21 @@
 
 <script>
 
-
     $(document).ready(function () {
-        return userTable();
+        return userInfo();
     });
 
-    async function userTable() {
-        const response = await fetch('/user', {
+    async function userInfo() {
+        const response = await fetch('/api/user', {
             method: 'GET',
             headers: {'Content-Type': 'application/json'}
         });
 
         const {id, username, password, firstName, lastName, email, roles} = await response.json();
+
+        $('#currentUser').text(username);
+        $('#roles').text(roles.map(({name}) => name.replace('ROLE_', '')).join(', '));
+
 
         $('#userTableBody').append(`<tr>
         <td>${id}</td>
@@ -115,7 +118,14 @@
         <td>${email}</td>
         <td>${roles.map(({name}) => name.replace('ROLE_', '')).join(', ')}</td>
       </tr>`);
+
+        let isAdmin = roles.some(role => role.name === 'ROLE_ADMIN');
+        if (isAdmin) {
+            $('#adminLink').show();
+        }
+
     }
+
 </script>
 
 </body>
