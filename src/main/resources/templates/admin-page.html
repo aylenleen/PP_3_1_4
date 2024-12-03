@@ -75,7 +75,7 @@
             <!-- Вкладки -->
             <ul class="nav nav-tabs" id="nav">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#users-table" data-toggle="tab">Users table</a>
+                    <a class="nav-link active" href="#users-table" id="adminUsersTable" data-toggle="tab">Users table</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#new-user" data-toggle="tab">New User</a>
@@ -303,6 +303,7 @@
             headers: {'Content-Type': 'application/json'}
         });
 
+
         const roles = await response.json();
 
         const options = roles.map(role =>
@@ -314,30 +315,58 @@
 
     document.getElementById('addUserForm').addEventListener('submit', e => {
         e.preventDefault();
-        const newUser = {
-            username: $('#username').val(),
-            password: $('#password').val(),
-            firstName: $('#firstName').val(),
-            lastName: $('#lastName').val(),
-            email: $('#email').val(),
-            roles: $('#role').val()
-        };
+        // const roles = loadRoles();
+        // console.log(roles);
+        // const createUserRolesField = $('#role');
+        // createUserRolesField.prop('disabled', false).empty();
+        //
+        // const options = roles.map(role => `<option value="${role}"> ${role.name.replace('ROLE_', '')} </option>`);
+        // createUserRolesField.append(options);
+
         saveUser();
 
+
         async function saveUser() {
-            const response = await fetch('api/users', {
+
+            // const createUserRolesField = $('#role');
+            //
+            // let addedRoles = [];
+            // let value = createUserRolesField.val();
+            //
+            // console.log(value);
+            //
+            // value.forEach((role) => {
+            //     const {idR, nameR, authority} = role;
+            //     addedRoles.push({id: idR, name: nameR, authority: authority})
+            // });
+            //
+            // console.log(addedRoles);
+
+            // createUserRolesField.val().forEach(function () {
+            //     addedRoles.push({
+            //         id: $(this).val(), name: $(this).text(), authority: $(this).text()
+            //     });
+            // });
+
+
+            await fetch('api/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(newUser)
-            });
-            if (response.ok) {
+                body: JSON.stringify({
+                    username: $('#username').val(),
+                    password: $('#password').val(),
+                    firstName: $('#firstName').val(),
+                    lastName: $('#lastName').val(),
+                    email: $('#email').val(),
+                    roles: $('#roles').val()
+                })
+            }).then(() => {
                 $('#addUserForm')[0].reset();
-                const tabs = document.querySelectorAll('#nav');
-                show(tabs[0]);
-                await getAllUsers();
-            }
+                getAllUsers();
+                $('#adminUsersTable').click();
+            })
         }
     });
 
