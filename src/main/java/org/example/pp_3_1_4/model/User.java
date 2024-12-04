@@ -1,6 +1,7 @@
 package org.example.pp_3_1_4.model;
 
 
+import org.hibernate.annotations.Cascade;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

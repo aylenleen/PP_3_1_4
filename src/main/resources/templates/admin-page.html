@@ -306,6 +306,8 @@
 
         const roles = await response.json();
 
+        console.log(roles);
+
         const options = roles.map(role =>
             `<option value="${role.name}"> ${role.name.replace('ROLE_', '')} </option>`);
         $('#role').append(options);
@@ -315,38 +317,30 @@
 
     document.getElementById('addUserForm').addEventListener('submit', e => {
         e.preventDefault();
-        // const roles = loadRoles();
-        // console.log(roles);
-        // const createUserRolesField = $('#role');
-        // createUserRolesField.prop('disabled', false).empty();
-        //
-        // const options = roles.map(role => `<option value="${role}"> ${role.name.replace('ROLE_', '')} </option>`);
-        // createUserRolesField.append(options);
 
         saveUser();
 
-
         async function saveUser() {
 
-            // const createUserRolesField = $('#role');
-            //
-            // let addedRoles = [];
-            // let value = createUserRolesField.val();
-            //
-            // console.log(value);
-            //
-            // value.forEach((role) => {
-            //     const {idR, nameR, authority} = role;
-            //     addedRoles.push({id: idR, name: nameR, authority: authority})
-            // });
-            //
-            // console.log(addedRoles);
+            let addRoles = [];
+            let options = document.getElementById('role').options;
 
-            // createUserRolesField.val().forEach(function () {
-            //     addedRoles.push({
-            //         id: $(this).val(), name: $(this).text(), authority: $(this).text()
-            //     });
-            // });
+            for (let opt of options) {
+                if (opt.selected) addRoles.push(opt.value);
+            }
+
+            console.log(addRoles);
+
+            const newUser = JSON.stringify({
+                username: $('#username').val(),
+                password: $('#password').val(),
+                firstName: $('#firstName').val(),
+                lastName: $('#lastName').val(),
+                email: $('#email').val(),
+                roles: addRoles
+            });
+
+            console.log(newUser);
 
 
             await fetch('api/users', {
@@ -354,14 +348,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    username: $('#username').val(),
-                    password: $('#password').val(),
-                    firstName: $('#firstName').val(),
-                    lastName: $('#lastName').val(),
-                    email: $('#email').val(),
-                    roles: $('#roles').val()
-                })
+                body: newUser
             }).then(() => {
                 $('#addUserForm')[0].reset();
                 getAllUsers();
