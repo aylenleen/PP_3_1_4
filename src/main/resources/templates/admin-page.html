@@ -147,7 +147,7 @@
     </div>
 </div>
 
-<!--Окно редактирования-->
+<!--Модальное окно-->
 <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -193,55 +193,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" id="submitEdit" form="editUserForm">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-<!--Окно удаления-->
-<div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteUserModalLabel">Delete User</h5>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="deleteUserForm">
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                    <div class="mb-3">
-                        <label for="deleteUserId" class="form-label fw-bold">ID</label>
-                        <input type="text" class="form-control bg-light" id="deleteUserId" name="id" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="deleteFirstname" class="form-label fw-bold">First Name</label>
-                        <input type="text" class="form-control bg-light" id="deleteFirstname" name="firstName" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="deleteLastname" class="form-label fw-bold">Last Name</label>
-                        <input type="text" class="form-control bg-light" id="deleteLastname" name="lastName" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="deleteEmail" class="form-label fw-bold">Email</label>
-                        <input type="text" class="form-control bg-light" id="deleteEmail" name="email" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="deleteUsername" class="form-label fw-bold">Username</label>
-                        <input type="text" class="form-control bg-light" id="deleteUsername" name="username" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="deleteRoles" class="form-label fw-bold">Roles</label>
-                        <select class="form-select bg-light" id="deleteRoles" name="roles" multiple disabled></select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-danger" form="deleteUserForm" id="confirmDeleteBtn">Delete User</button>
+                <button type="submit" id="submitEdit" form="editUserForm"></button>
             </div>
         </div>
     </div>
