@@ -38,9 +38,9 @@ public class AdminRestController {
         return ResponseEntity.ok(user);
     }
 
-    @PutMapping(value = "/users/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User user) {
-        user.setId((long)id);
+    @PatchMapping(value = "/users")
+    public ResponseEntity<User> updateUser( @RequestBody User user) {
+//        user.setId((long)id);
         userService.update(user);
         return ResponseEntity.ok(user);
     }
