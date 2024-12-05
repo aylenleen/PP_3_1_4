@@ -49,7 +49,7 @@
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
         <span class="navbar-text text-light">
-            <strong id="currentUser"></strong> with roles: <span id="roles"></span>
+            <strong id="currentUser"></strong> with roles: <strong id="roles"></strong>
         </span>
         <a href="/logout" class="btn btn-outline-light">Logout</a>
     </div>
@@ -320,8 +320,7 @@
     });
 
     async function openModalHandler(actionId, userId = null) {
-        console.log("AAAAAAA");
-        console.log(userId);
+
         const modal = $('#editUserModal');
 
         modal.modal();
@@ -382,7 +381,6 @@
 
         return response.json();
     }
-
 
 
     function collectUserData() {
