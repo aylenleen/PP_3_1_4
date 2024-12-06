@@ -458,7 +458,7 @@
     });
 
     const editUser = async (user) => fetch(`/api/users`, {
-        method: 'PATCH',
+        method: 'PUT',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(user)
     });

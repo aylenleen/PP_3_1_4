@@ -38,9 +38,8 @@ public class AdminRestController {
         return ResponseEntity.ok(user);
     }
 
-    @PatchMapping(value = "/users")
-    public ResponseEntity<User> updateUser( @RequestBody User user) {
-//        user.setId((long)id);
+    @PutMapping(value = "/users")
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
         userService.update(user);
         return ResponseEntity.ok(user);
     }
